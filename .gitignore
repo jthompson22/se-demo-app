@@ -36,5 +36,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# cursor
-.cursorrules
+# db
+db/migrations

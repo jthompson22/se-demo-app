@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostBySlug } from '@/db/actions';
 import Markdown from 'react-markdown';
 import Link from 'next/link';
-import Form from 'next/form';
+
 
 import {
   HandThumbUpIcon,
@@ -66,27 +66,12 @@ export default async function BlogPost({ params }: PageProps) {
             <span className="flex items-center gap-1">
               <EyeIcon className="h-4 w-4" /> {post.views}
             </span>
-            <Form action={updatePostEngagement} className="flex gap-4">
-              <input type="hidden" name="slug" value={post.slug} />
-
-              <button
-                type="submit"
-                name="action"
-                value="like"
-                className="flex items-center gap-1 hover:text-primary"
-              >
-                <HandThumbUpIcon className="h-4 w-4" /> {post.likes}
-              </button>
-
-              <button
-                type="submit"
-                name="action"
-                value="dislike"
-                className="flex items-center gap-1 hover:text-primary"
-              >
-                <HandThumbDownIcon className="h-4 w-4" /> {post.dislikes}
-              </button>
-            </Form>
+            <span className="flex items-center gap-1">
+              <HandThumbUpIcon className="h-4 w-4" /> {post.likes}
+            </span>
+            <span className="flex items-center gap-1">
+              <HandThumbDownIcon className="h-4 w-4" /> {post.dislikes}
+            </span>
           </div>
         </div>
       </header>
