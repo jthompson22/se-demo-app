@@ -1,11 +1,16 @@
 import { BlogList } from '@/components/BlogList';
+import { BlogListSkeleton } from '@/components/BlogListSkeleton';
+import { Suspense } from 'react';
 
 export const experimental_ppr = true;
 
-export default function Home() {
+export default async function Home() {
+  // Example query
   return (
     <main>
-      <BlogList />
+      <Suspense fallback={<BlogListSkeleton />}>
+        <BlogList />
+      </Suspense>
     </main>
   );
 }

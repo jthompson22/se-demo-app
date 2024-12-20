@@ -3,13 +3,19 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbo",
-    "start": "next start"
+    "start": "next start",
+    "db:generate": "drizzle-kit generate:pg",
+    "db:push": "drizzle-kit push:pg"
   },
   "dependencies": {
     "@heroicons/react": "2.1.5",
+    "@notionhq/client": "^2.2.15",
+    "@vercel/postgres": "^0.10.0",
     "clsx": "2.1.1",
     "date-fns": "3.6.0",
     "dinero.js": "2.0.0-alpha.8",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.2",
     "geist": "1.3.1",
     "next": "15.0.0-canary.67",
     "react": "19.0.0-rc-8b08e99e-20240713",
@@ -22,6 +28,7 @@
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.19",
+    "drizzle-kit": "^0.30.1",
     "postcss": "8.4.39",
     "tailwindcss": "3.4.5",
     "typescript": "5.5.3"

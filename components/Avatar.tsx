@@ -2,12 +2,12 @@ import Image from 'next/image';
 
 export function Avatar() {
   return (
-    <div className="relative h-24 w-24 overflow-hidden rounded-full border-2 border-gray-200">
+    <div className="relative h-48 w-48 overflow-hidden rounded-full">
       <Image
         src="/manwalk.gif"
         alt="Animated avatar"
         fill
-        className="object-cover dark:invert"
+        className="object-contain scale-x-[-1] dark:invert" // Added scale-x-[-1] to flip horizontally
         priority
       />
     </div>
