@@ -1,16 +1,17 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getAllSlugs, getPostBySlug } from '@/db/actions';
+import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
+// import { getSocialMetrics } from '@/db/actions-nocache';
+
+import { Suspense } from 'react';
+import { unstable_noStore as noStore } from 'next/cache';
+
 import Markdown from 'react-markdown';
 import Link from 'next/link';
-
-
-import {
-  HandThumbUpIcon,
-  HandThumbDownIcon,
-  EyeIcon,
-  ArrowLeftIcon,
-} from '@heroicons/react/24/outline';
+import SummaryPanel from '@/components/SummaryPanel';
+import EngagementButtons from '@/components/EngagementButtons';
+import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { EngagementSection } from './EngagementSection';
 
 interface PageProps {
   params: {
@@ -18,7 +19,6 @@ interface PageProps {
   };
 }
 
-// Generate static paths
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
   return slugs.map((slug) => ({
@@ -26,22 +26,9 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate metadata
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug);
-
-  if (!post) return { title: 'Post Not Found' };
-
-  return {
-    title: post.title,
-    description: post.description,
-  };
-}
-
 export default async function BlogPost({ params }: PageProps) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 
@@ -63,15 +50,16 @@ export default async function BlogPost({ params }: PageProps) {
         <div className="flex items-center gap-6 text-sm text-primary/60">
           <time>{new Date(post.createdAt).toLocaleDateString()}</time>
           <div className="flex gap-4">
-            <span className="flex items-center gap-1">
-              <EyeIcon className="h-4 w-4" /> {post.views}
-            </span>
-            <span className="flex items-center gap-1">
-              <HandThumbUpIcon className="h-4 w-4" /> {post.likes}
-            </span>
-            <span className="flex items-center gap-1">
-              <HandThumbDownIcon className="h-4 w-4" /> {post.dislikes}
-            </span>
+            <Suspense fallback={<EngagementButtonSkeleton />}>
+              <EngagementSection
+                slug={slug}
+                post={post}
+                submitFeedback={submitFeedback}
+              />
+            </Suspense>
+            <Suspense fallback={<SummaryPanelSkeleton />}>
+              <SummaryPanel content={post.content || ''} />
+            </Suspense>
           </div>
         </div>
       </header>
@@ -80,5 +68,22 @@ export default async function BlogPost({ params }: PageProps) {
         <Markdown>{post.content || ''}</Markdown>
       </div>
     </article>
+  );
+}
+
+function EngagementButtonSkeleton() {
+  return (
+    <div className="flex items-center gap-1 text-primary/60">
+      <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+      <div className="h-4 w-6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+    </div>
+  );
+}
+function SummaryPanelSkeleton() {
+  return (
+    <div className="flex items-center gap-1 text-primary/60">
+      <div className="h-4 w-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+      <div className="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+    </div>
   );
 }

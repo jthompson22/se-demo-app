@@ -15,6 +15,20 @@
       "when": 1734660046005,
       "tag": "0001_magical_victor_mancha",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734730642509,
+      "tag": "0002_breezy_spot",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1734731579008,
+      "tag": "0003_adorable_hellfire_club",
+      "breakpoints": true
     }
   ]
 }

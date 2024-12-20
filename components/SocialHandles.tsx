@@ -11,7 +11,7 @@ export function SocialHandles({ twitter, linkedin }: SocialHandlesProps) {
     <div className="flex items-center gap-4">
       {twitter && (
         <Link
-          href={`https://twitter.com/${twitter}`}
+          href={`https://x.com/jared_thomps`}
           className="text-muted-foreground hover:opacity-80 transition-opacity"
           target="_blank"
           rel="noopener noreferrer"
@@ -27,7 +27,7 @@ export function SocialHandles({ twitter, linkedin }: SocialHandlesProps) {
       )}
       {linkedin && (
         <Link
-          href={`https://linkedin.com/in/${linkedin}`}
+          href={'https://www.linkedin.com/in/jthompson222/'}
           className="text-muted-foreground hover:opacity-80 transition-opacity"
           target="_blank"
           rel="noopener noreferrer"

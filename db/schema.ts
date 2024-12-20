@@ -5,6 +5,7 @@ import {
   integer,
   primaryKey,
 } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 
 export const Post = pgTable('Post', {
   id: text('id').primaryKey().notNull(),
@@ -25,4 +26,17 @@ export const Social = pgTable('Social', {
   dislikes: integer('dislikes').default(0).notNull(),
   views: integer('views').default(0).notNull(),
   updatedAt: timestamp('updatedAt').defaultNow().notNull(),
+});
+
+export const Feedback = pgTable('Feedback', {
+  id: text('id')
+    .primaryKey()
+    .notNull()
+    .default(sql`gen_random_uuid()`),
+  postId: text('postId')
+    .references(() => Post.id)
+    .notNull(),
+  type: text('type').notNull(), // 'like' or 'dislike'
+  comment: text('comment'),
+  createdAt: timestamp('createdAt').defaultNow().notNull(),
 });

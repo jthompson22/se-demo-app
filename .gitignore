@@ -38,3 +38,6 @@ yarn-error.log*
 
 # db
 db/migrations
+
+# local env files
+.env.local
