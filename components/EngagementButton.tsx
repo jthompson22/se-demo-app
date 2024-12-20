@@ -13,10 +13,12 @@ export function EngagementButton({
   type,
   count,
   isActive,
+  submitFeedback,
 }: {
   type: 'like' | 'dislike';
   count: number;
   isActive: boolean;
+  submitFeedback: any;
 }) {
   const { pending } = useFormStatus();
 

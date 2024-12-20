@@ -1,7 +1,7 @@
 export function BlogListSkeleton() {
   return (
     <div className="space-y-6">
-      {[1, 2, 3].map((i) => (
+      {[1, 2, 3, 4, 5, 6].map((i) => (
         <article key={i} className="rounded-lg border border-border p-4">
           {/* Title skeleton */}
           <div className="h-7 w-3/4 animate-pulse rounded-md bg-muted" />
