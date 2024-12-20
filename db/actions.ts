@@ -2,7 +2,7 @@
 import { db } from './index';
 import { Post, Social } from './schema';
 import { desc, eq } from 'drizzle-orm';
-import { cookies } from 'next/headers';
+
 
 export async function getPublishedPost() {
   try {
@@ -79,75 +79,4 @@ export async function getAllSlugs() {
   }
 }
 
-export async function updatePostEngagement(formData: FormData) {
-  const slug = formData.get('slug') as string;
-  const action = formData.get('action') as 'like' | 'dislike';
-  const cookieStore = cookies();
 
-  // Get post ID from slug
-  const [post] = await db
-    .select({ id: Post.id })
-    .from(Post)
-    .where(eq(Post.slug, slug));
-
-  if (!post) return { error: 'Post not found' };
-
-  // Get existing engagement from cookie
-  const engagementCookie = cookieStore.get(`post-${slug}-engagement`);
-  const previousAction = engagementCookie?.value as
-    | 'like'
-    | 'dislike'
-    | undefined;
-
-  // If same action, remove it (toggle off)
-  if (previousAction === action) {
-    cookieStore.delete(`post-${slug}-engagement`);
-    await db
-      .update(Social)
-      .set({
-        [action === 'like' ? 'likes' : 'dislikes']: sql`${
-          Social[action === 'like' ? 'likes' : 'dislikes']
-        } - 1`,
-        updatedAt: new Date(),
-      })
-      .where(eq(Social.postId, post.id));
-    return { action: null };
-  }
-
-  // If different action, need to remove previous and add new
-  if (previousAction) {
-    await db
-      .update(Social)
-      .set({
-        [previousAction === 'like' ? 'likes' : 'dislikes']: sql`${
-          Social[previousAction === 'like' ? 'likes' : 'dislikes']
-        } - 1`,
-        [action === 'like' ? 'likes' : 'dislikes']: sql`${
-          Social[action === 'like' ? 'likes' : 'dislikes']
-        } + 1`,
-        updatedAt: new Date(),
-      })
-      .where(eq(Social.postId, post.id));
-  } else {
-    // New engagement
-    await db
-      .update(Social)
-      .set({
-        [action === 'like' ? 'likes' : 'dislikes']: sql`${
-          Social[action === 'like' ? 'likes' : 'dislikes']
-        } + 1`,
-        updatedAt: new Date(),
-      })
-      .where(eq(Social.postId, post.id));
-  }
-
-  // Set new cookie
-  cookieStore.set(`post-${slug}-engagement`, action, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    maxAge: 60 * 60 * 24 * 365, // 1 year
-  });
-
-  return { action };
-}
