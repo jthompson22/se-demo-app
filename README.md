@@ -1,23 +1,32 @@
-## Next.js Partial Prerendering
+## Next.js 15 Demo Blog
 
-This is a demo of [Next.js](https://nextjs.org) using [Partial Prerendering](https://nextjs.org/docs/app/api-reference/next-config-js/partial-prerendering).
+A demo blog application showcasing new features in Next.js 15:
 
-This template uses the new Next.js [App Router](https://nextjs.org/docs/app). This includes support for enhanced layouts, colocation of components, tests, and styles, component-level data fetching, and more.
+- **Partial Prerendering (PPR)** - The blog uses PPR to deliver a fast initial static shell while dynamically loading engagement metrics
+- **Server Actions** - Like/dislike functionality implemented using server actions and next/form
+- **use-cache Hook** - Caching blog post data for optimal performance
+- **React 19 Features** - Built with React 19 RC for testing new concurrent features
 
-It also uses the experimental Partial Prerendering feature available in Next.js 14. Partial Prerendering combines ultra-quick static edge delivery with fully dynamic capabilities and we believe it has the potential to [become the default rendering model for web applications](https://vercel.com/blog/partial-prerendering-with-next-js-creating-a-new-default-rendering-model), bringing together the best of static site generation and dynamic delivery.
+### Getting Started
 
-> ⚠️ Please note that PPR is an experimental technology that is not recommended for production. You may run into some DX issues, especially on larger code bases.
+1. Clone the repository
+2. Copy `.env.example` to `.env` and configure your database
+3. Install dependencies: `npm install`
+4. Run database migrations: `npm run db:push`
+5. Start the development server: `npm run dev`
 
-## How it works
+### Key Features
 
-The index route `/` uses Partial Prerendering through:
+- Blog post listing with engagement metrics
+- Individual post pages with Markdown support
+- Like/Dislike functionality with cookie-based tracking
+- View counter for posts
+- Responsive design with Tailwind CSS
 
-1. Enabling the experimental flag in `next.config.js`.
+### Tech Stack
 
-```js
-experimental: {
-    ppr: true,
-},
-```
-
-2. Using `<Suspense />` to wrap Dynamic content.
+- Next.js 15
+- React 19 RC
+- Drizzle ORM
+- Vercel Postgres
+- TailwindCSS
