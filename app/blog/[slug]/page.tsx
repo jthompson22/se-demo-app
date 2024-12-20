@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
+// import { getSocialMetrics } from '@/db/actions-nocache';
+
 import { Suspense } from 'react';
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -9,35 +11,12 @@ import Link from 'next/link';
 import SummaryPanel from '@/components/SummaryPanel';
 import EngagementButtons from '@/components/EngagementButtons';
 import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { EngagementSection } from './EngagementSection';
 
 interface PageProps {
   params: {
     slug: string;
   };
-}
-
-// Split the engagement section into a separate component
-function EngagementSection({
-  slug,
-  submitFeedback,
-  post,
-}: {
-  slug: string;
-  submitFeedback: any;
-  post: any;
-}) {
-  // Mark this component's data requirements as dynamic
-  noStore();
-
-  return (
-    <Suspense fallback={<EngagementButtonSkeleton />}>
-      <EngagementButtons
-        post={post}
-        submitFeedback={submitFeedback}
-        slug={slug}
-      />
-    </Suspense>
-  );
 }
 
 export async function generateStaticParams() {
@@ -71,11 +50,13 @@ export default async function BlogPost({ params }: PageProps) {
         <div className="flex items-center gap-6 text-sm text-primary/60">
           <time>{new Date(post.createdAt).toLocaleDateString()}</time>
           <div className="flex gap-4">
-            <EngagementSection
-              slug={slug}
-              post={post}
-              submitFeedback={submitFeedback}
-            />
+            <Suspense fallback={<EngagementButtonSkeleton />}>
+              <EngagementSection
+                slug={slug}
+                post={post}
+                submitFeedback={submitFeedback}
+              />
+            </Suspense>
             <Suspense fallback={<SummaryPanelSkeleton />}>
               <SummaryPanel content={post.content || ''} />
             </Suspense>
@@ -93,8 +74,8 @@ export default async function BlogPost({ params }: PageProps) {
 function EngagementButtonSkeleton() {
   return (
     <div className="flex items-center gap-1 text-primary/60">
-      <div className="h-4 w-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-      <div className="h-4 w-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+      <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+      <div className="h-4 w-6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
     </div>
   );
 }

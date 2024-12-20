@@ -44,23 +44,14 @@ export async function getPostBySlug(slug: string) {
         description: Post.description,
         content: Post.content,
         createdAt: Post.createdAt,
-        likes: Social.likes,
-        dislikes: Social.dislikes,
-        views: Social.views,
       })
       .from(Post)
-      .leftJoin(Social, eq(Post.id, Social.postId))
       .where(eq(Post.slug, slug))
       .limit(1);
 
     if (!post[0]) return null;
 
-    return {
-      ...post[0],
-      likes: post[0].likes ?? 0,
-      dislikes: post[0].dislikes ?? 0,
-      views: post[0].views ?? 0,
-    };
+    return post[0];
   } catch (error) {
     console.error('Failed to fetch post:', error);
     throw new Error('Failed to fetch post');
@@ -95,6 +86,8 @@ export async function submitFeedback(
       createdAt: new Date(),
     });
 
+    console.log('type', type);
+
     // Update the social metrics
     await db
       .insert(Social)
@@ -120,3 +113,4 @@ export async function submitFeedback(
     return { success: false, error: 'Failed to submit feedback' };
   }
 }
+
