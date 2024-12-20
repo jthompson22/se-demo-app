@@ -14,17 +14,17 @@ import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { EngagementSection } from './EngagementSection';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
-
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
   return slugs.map((slug) => ({
     slug: slug.slug,
   }));
 }
+//Gernerate 
 
 export default async function BlogPost({ params }: PageProps) {
   const { slug } = await params;
