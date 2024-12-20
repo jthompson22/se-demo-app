@@ -1,43 +1,55 @@
-export function BlogList() {
-  // Placeholder blog items
-  const blogs = [
-    { id: 1, title: 'Understanding Next.js 15', date: '2024-03-20' },
-    {
-      id: 2,
-      title: 'The Power of React Server Components',
-      date: '2024-03-18',
-    },
-    { id: 3, title: 'Building with TailwindCSS', date: '2024-03-15' },
-    { id: 4, title: 'Advanced Data Fetching in Next.js', date: '2024-03-13' },
-    { id: 5, title: 'Mastering TypeScript with React', date: '2024-03-10' },
-    {
-      id: 6,
-      title: 'Server Actions in Next.js Applications',
-      date: '2024-03-08',
-    },
-    { id: 7, title: 'Optimizing React Performance', date: '2024-03-05' },
-    {
-      id: 8,
-      title: 'Modern CSS Techniques with TailwindCSS',
-      date: '2024-03-03',
-    },
-    {
-      id: 9,
-      title: 'Building Accessible React Components',
-      date: '2024-02-28',
-    },
-  ];
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import {
+  HandThumbUpIcon,
+  HandThumbDownIcon,
+  EyeIcon,
+} from '@heroicons/react/24/outline';
+import { getPublishedPost } from '@/db/actions';
+import Link from 'next/link';
+
+interface Blog {
+  title: string;
+  createdAt: Date;
+  likes: number;
+  dislikes: number;
+  views: number;
+  slug: string;
+}
+
+export async function BlogList() {
+  const posts = await getPublishedPost();
 
   return (
     <div className="space-y-6">
-      {blogs.map((blog) => (
-        <article
-          key={blog.id}
-          className="cursor-pointer rounded-lg border border-border p-4 transition-colors hover:bg-muted"
-        >
-          <h2 className="text-xl font-semibold text-primary">{blog.title}</h2>
-          <time className="text-sm text-primary/60">{blog.date}</time>
-        </article>
+      {posts.map((post, index) => (
+        <Link href={`/blog/${post.slug}`} key={index}>
+          <article className="group flex items-center gap-3 cursor-pointer rounded-lg p-4 transition-colors hover:bg-muted">
+            <ChevronRightIcon className="h-5 w-5 text-primary/30 group-hover:text-primary/60" />
+            <div className="flex-1">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-xl font-semibold text-primary">
+                    {post.title}
+                  </h2>
+                  <time className="text-sm text-primary/60">
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </time>
+                </div>
+                <div className="flex gap-4 text-sm text-primary/60">
+                  <span className="flex items-center gap-1">
+                    <EyeIcon className="h-4 w-4" /> {post.views}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <HandThumbUpIcon className="h-4 w-4" /> {post.likes}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <HandThumbDownIcon className="h-4 w-4" /> {post.dislikes}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </Link>
       ))}
     </div>
   );

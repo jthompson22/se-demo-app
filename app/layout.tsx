@@ -23,16 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="overflow-y-scroll bg-background text-primary">
-        <div className="mx-auto max-w-6xl px-2 pt-20 lg:px-8 lg:py-8">
-          <div className="rounded-lg bg-card">
+        <div className="mx-auto max-w-4xl px-2 pt-20 lg:px-8 lg:py-8">
+          <div className="rounded-lg bg-card shadow-sm">
             <div className="rounded-lg p-3.5 lg:p-6">
-              <div className="flex flex-col sm:flex-row gap-8">
-                {/* Sticky sidebar */}
-                <div className="sticky top-8 h-fit w-64 flex-shrink-0">
-                  <BlogHeader />
-                </div>
-                {/* Main content area */}
-                <div className="min-h-screen flex-grow">{children}</div>
+              <div className="flex flex-col gap-8">
+                <BlogHeader />
+                <div className="min-h-screen">{children}</div>
               </div>
             </div>
           </div>

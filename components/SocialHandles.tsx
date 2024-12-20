@@ -19,8 +19,8 @@ export function SocialHandles({ twitter, linkedin }: SocialHandlesProps) {
           <Image
             src="/x-social-media-logo-icon.svg"
             alt="X (Twitter) Profile"
-            width={40}
-            height={40}
+            width={30}
+            height={30}
             className="dark:invert"
           />
         </Link>
@@ -35,8 +35,8 @@ export function SocialHandles({ twitter, linkedin }: SocialHandlesProps) {
           <Image
             src="/linkedin-app-icon.svg"
             alt="LinkedIn Profile"
-            width={40}
-            height={40}
+            width={30}
+            height={30}
           />
         </Link>
       )}
