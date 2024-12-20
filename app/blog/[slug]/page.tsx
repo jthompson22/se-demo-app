@@ -1,30 +1,29 @@
-import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
-// import { getSocialMetrics } from '@/db/actions-nocache';
-
 import { Suspense } from 'react';
-import { unstable_noStore as noStore } from 'next/cache';
 
 import Markdown from 'react-markdown';
 import Link from 'next/link';
 import SummaryPanel from '@/components/SummaryPanel';
-import EngagementButtons from '@/components/EngagementButtons';
 import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { EngagementSection } from './EngagementSection';
+import { Metadata } from 'next';
 
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
 }
+export const metadata: Metadata = {
+  metadataBase: new URL('https://partialprerendering.com'),
+};
+
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
   return slugs.map((slug) => ({
     slug: slug.slug,
   }));
 }
-//Gernerate 
 
 export default async function BlogPost({ params }: PageProps) {
   const { slug } = await params;
