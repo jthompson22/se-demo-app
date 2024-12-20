@@ -13,28 +13,17 @@ export async function getPublishedPost() {
         title: Post.title,
         createdAt: Post.createdAt,
         slug: Post.slug,
-        likes: Social.likes,
-        dislikes: Social.dislikes,
-        views: Social.views,
       })
       .from(Post)
-      .leftJoin(Social, eq(Post.id, Social.postId))
       .where(eq(Post.published, 'true'))
       .orderBy(desc(Post.createdAt));
 
-    // Ensure social metrics are never null
-    return posts.map((post) => ({
-      ...post,
-      likes: post.likes ?? 0,
-      dislikes: post.dislikes ?? 0,
-      views: post.views ?? 0,
-    }));
+    return posts;
   } catch (error) {
     console.error('Failed to fetch blog Post:', error);
     throw new Error('Failed to fetch blog Post');
   }
 }
-
 export async function getPostBySlug(slug: string) {
   try {
     const post = await db

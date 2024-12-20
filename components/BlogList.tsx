@@ -6,6 +6,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { getPublishedPost } from '@/db/actions';
 import Link from 'next/link';
+import { Suspense } from 'react';
+import { BlogMetrics } from './BlobMetrics';
 
 interface Blog {
   title: string;
@@ -35,21 +37,25 @@ export async function BlogList() {
                     {new Date(post.createdAt).toLocaleDateString()}
                   </time>
                 </div>
-                <div className="flex gap-4 text-sm text-primary/60">
-                  <span className="flex items-center gap-1">
-                    <EyeIcon className="h-4 w-4" /> {post.views}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <HandThumbUpIcon className="h-4 w-4" /> {post.likes}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <HandThumbDownIcon className="h-4 w-4" /> {post.dislikes}
-                  </span>
-                </div>
+                <Suspense fallback={<MetricsSkeleton />}>
+                  <BlogMetrics postId={post.id} />
+                </Suspense>
               </div>
             </div>
           </article>
         </Link>
+      ))}
+    </div>
+  );
+}
+function MetricsSkeleton() {
+  return (
+    <div className="flex gap-4 text-sm text-primary/60">
+      {[0, 1, 2].map((i) => (
+        <span key={i} className="flex items-center gap-1">
+          <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+          <div className="h-4 w-6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+        </span>
       ))}
     </div>
   );
