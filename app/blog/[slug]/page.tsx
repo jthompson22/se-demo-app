@@ -1,23 +1,13 @@
-import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
-// import { getSocialMetrics } from '@/db/actions-nocache';
-
 import { Suspense } from 'react';
-import { unstable_noStore as noStore } from 'next/cache';
 
 import Markdown from 'react-markdown';
 import Link from 'next/link';
 import SummaryPanel from '@/components/SummaryPanel';
-import EngagementButtons from '@/components/EngagementButtons';
 import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { EngagementSection } from './EngagementSection';
-
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
+import { Metadata } from 'next';
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -26,8 +16,19 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function BlogPost({ params }: PageProps) {
+export const experimental_ppr = true;
+
+export default async function Shell({ params }: any) {
+  return (
+    <Suspense fallback={<BlogContentSkeleton />}>
+      <BlogPost params={params} />
+    </Suspense>
+  );
+}
+
+async function BlogPost({ params }: any) {
   const { slug } = await params;
+
   const post = await getPostBySlug(slug);
 
   if (!post) notFound();
@@ -48,7 +49,7 @@ export default async function BlogPost({ params }: PageProps) {
           <p className="text-lg text-primary/60 mb-4">{post.description}</p>
         )}
         <div className="flex items-center gap-6 text-sm text-primary/60">
-          <time>{new Date(post.createdAt).toLocaleDateString()}</time>
+          <time>{post.createdAt.toLocaleDateString()}</time>
           <div className="flex gap-4">
             <Suspense fallback={<EngagementButtonSkeleton />}>
               <EngagementSection
@@ -71,6 +72,21 @@ export default async function BlogPost({ params }: PageProps) {
   );
 }
 
+function BlogContentSkeleton() {
+  return (
+    <div className="space-y-4 animate-pulse">
+      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
+      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
+      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6" />
+      <div className="space-y-2">
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5" />
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
+      </div>
+    </div>
+  );
+}
+
 function EngagementButtonSkeleton() {
   return (
     <div className="flex items-center gap-1 text-primary/60">
@@ -79,6 +95,7 @@ function EngagementButtonSkeleton() {
     </div>
   );
 }
+
 function SummaryPanelSkeleton() {
   return (
     <div className="flex items-center gap-1 text-primary/60">
