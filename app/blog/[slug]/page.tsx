@@ -1,39 +1,36 @@
-'use cache';
 import { notFound } from 'next/navigation';
-//import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
+import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
 import { Suspense } from 'react';
 
-//import Markdown from 'react-markdown';
+import Markdown from 'react-markdown';
 import Link from 'next/link';
-//import SummaryPanel from '@/components/SummaryPanel';
+import SummaryPanel from '@/components/SummaryPanel';
 import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
-//import { EngagementSection } from './EngagementSection';
+import { EngagementSection } from './EngagementSection';
 import { Metadata } from 'next';
 
-interface PageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+export async function generateStaticParams() {
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({
+    slug: slug.slug,
+  }));
 }
-// export async function generateStaticParams() {
-//   const slugs = await getAllSlugs();
-//   return slugs.map((slug) => ({
-//     slug: slug.slug,
-//   }));
-// }
-//export const experimental_ppr = true;
 
-export default async function BlogPost({ params }: PageProps) {
+export const experimental_ppr = true;
+
+export default async function Shell({ params }: any) {
+  return (
+    <Suspense fallback={<BlogContentSkeleton />}>
+      <BlogPost params={params} />
+    </Suspense>
+  );
+}
+
+async function BlogPost({ params }: any) {
   const { slug } = await params;
-  //const post = await getPostBySlug(slug);
 
-  const post = {
-    id: '1',
-    title: 'Test',
-    description: 'Test',
-    content: 'Test',
-    createdAt: '2024-01-01',
-  };
+  const post = await getPostBySlug(slug);
+
   if (!post) notFound();
 
   return (
@@ -52,26 +49,24 @@ export default async function BlogPost({ params }: PageProps) {
           <p className="text-lg text-primary/60 mb-4">{post.description}</p>
         )}
         <div className="flex items-center gap-6 text-sm text-primary/60">
-          {/* <time>{post.createdAt.toLocaleDateString()}</time> */}
+          <time>{post.createdAt.toLocaleDateString()}</time>
           <div className="flex gap-4">
             <Suspense fallback={<EngagementButtonSkeleton />}>
-              {/* <EngagementSection
+              <EngagementSection
                 slug={slug}
                 post={post}
                 submitFeedback={submitFeedback}
-              /> */}
+              />
             </Suspense>
             <Suspense fallback={<SummaryPanelSkeleton />}>
-              {/* <SummaryPanel content={post.content || ''} /> */}
+              <SummaryPanel content={post.content || ''} />
             </Suspense>
           </div>
         </div>
       </header>
 
       <div className="prose dark:prose-invert max-w-none">
-        <Suspense fallback={<BlogContentSkeleton />}>
-          {/* <Markdown>{post.content || ''}</Markdown> */}
-        </Suspense>
+        <Markdown>{post.content || ''}</Markdown>
       </div>
     </article>
   );
