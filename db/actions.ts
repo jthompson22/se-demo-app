@@ -26,6 +26,7 @@ export async function getPublishedPost() {
 }
 export async function getPostBySlug(slug: string) {
   try {
+    cacheLife('blog');
     const post = await db
       .select({
         id: Post.id,

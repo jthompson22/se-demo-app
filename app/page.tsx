@@ -5,7 +5,6 @@ import { Suspense } from 'react';
 export const experimental_ppr = true;
 
 export default async function Home() {
-  // Example query
   return (
     <main>
       <Suspense fallback={<BlogListSkeleton />}>
