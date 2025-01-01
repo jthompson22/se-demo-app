@@ -17,11 +17,13 @@ export const metadata: Metadata = {
   },
 };
 
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const shouldInjectToolbar = process.env.NODE_ENV === 'development';
   return (
     <html lang="en">
       <body className="overflow-y-scroll bg-background text-primary">
@@ -34,9 +36,7 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-          <Suspense>
-            <VercelToolbar />
-          </Suspense>
+          {shouldInjectToolbar && <VercelToolbar />}
         </div>
       </body>
     </html>

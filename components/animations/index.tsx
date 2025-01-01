@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import FunController from './FunController';
+// import { useFlags } from '@vercel/flags/react';
 import {
   MatrixRain,
   Fireworks,
@@ -14,6 +15,11 @@ import {
 const animations = [MatrixRain, Fireworks, Bubbles, Confetti, Glitch, Spiral];
 
 export default function FunAnimations() {
+  // const flags = useFlags();
+  // if (!flags.showFunController) {
+  //   return null;
+  // }
+
   const [activeButtons, setActiveButtons] = useState(
     new Array(animations.length).fill(false),
   );
