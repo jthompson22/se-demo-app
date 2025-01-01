@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Avatar } from './Avatar';
 import { SocialHandles } from './SocialHandles';
 import { SubNav } from './SubNav';
@@ -13,10 +14,16 @@ export function BlogHeader() {
             Writing and hacking about technology.
           </p>
           <SocialHandles twitter="thompsonj22" linkedin="thompsonj222" />
-          <SubNav />
+          <Suspense fallback={<SubNavSkeleton />}>
+            <SubNav />
+          </Suspense>
         </div>
         <Avatar rotation="left" />
       </div>
     </div>
   );
+}
+
+function SubNavSkeleton() {
+  return <div className="h-4 w-4 bg-gray-200 animate-pulse rounded-full"></div>;
 }

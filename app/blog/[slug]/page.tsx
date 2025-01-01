@@ -5,8 +5,9 @@ import { Suspense } from 'react';
 import Markdown from 'react-markdown';
 import Link from 'next/link';
 import SummaryPanel from '@/components/SummaryPanel';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { EngagementSection } from './EngagementSection';
+import { Metadata } from 'next';
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -65,9 +66,7 @@ async function BlogPost({ params }: any) {
       </header>
 
       <div className="prose dark:prose-invert max-w-none">
-        <Suspense>
-          <Markdown>{post.content || ''}</Markdown>
-        </Suspense>
+        <Markdown>{post.content || ''}</Markdown>
       </div>
     </article>
   );

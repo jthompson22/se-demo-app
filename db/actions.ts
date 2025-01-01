@@ -29,6 +29,7 @@ export async function getPublishedPost() {
   }
 }
 export async function getPostBySlug(slug: string) {
+  'use cache';
   try {
     cacheLife('blog');
     const post = await db
