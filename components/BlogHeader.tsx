@@ -31,3 +31,4 @@ export function BlogHeader() {
 function SubNavSkeleton() {
   return <div className="h-4 w-4 bg-gray-200 animate-pulse rounded-full"></div>;
 }
+
