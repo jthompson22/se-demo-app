@@ -47,4 +47,4 @@ db/migrations
 /studio
 ./studio
 .studio
-studio/** */
+studio/**
