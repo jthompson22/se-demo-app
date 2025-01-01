@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { BlogHeader } from '@/components/BlogHeader';
 import './globals.css';
+import { Suspense } from 'react';
+import { VercelToolbar } from '@vercel/toolbar/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://partialprerendering.com'),
@@ -15,11 +17,13 @@ export const metadata: Metadata = {
   },
 };
 
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const shouldInjectToolbar = process.env.NODE_ENV === 'development';
   return (
     <html lang="en">
       <body className="overflow-y-scroll bg-background text-primary">
@@ -32,6 +36,7 @@ export default function RootLayout({
               </div>
             </div>
           </div>
+          {shouldInjectToolbar && <VercelToolbar />}
         </div>
       </body>
     </html>

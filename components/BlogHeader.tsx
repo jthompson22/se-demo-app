@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Avatar } from './Avatar';
 import { SocialHandles } from './SocialHandles';
 import { SubNav } from './SubNav';
+import FunAnimations from '@/components/animations/index';
 
 export function BlogHeader() {
   return (
@@ -17,6 +18,9 @@ export function BlogHeader() {
           <Suspense fallback={<SubNavSkeleton />}>
             <SubNav />
           </Suspense>
+          <Suspense>
+            <FunAnimations />
+          </Suspense>
         </div>
         <Avatar rotation="left" />
       </div>
@@ -27,3 +31,4 @@ export function BlogHeader() {
 function SubNavSkeleton() {
   return <div className="h-4 w-4 bg-gray-200 animate-pulse rounded-full"></div>;
 }
+
