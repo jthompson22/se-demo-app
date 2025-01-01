@@ -42,3 +42,9 @@ db/migrations
 # local env files
 .env.local
 .env*.local
+
+# studio
+/studio
+./studio
+.studio
+studio/**

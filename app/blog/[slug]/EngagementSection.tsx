@@ -11,7 +11,7 @@ export async function EngagementSection({
   submitFeedback: any;
   post: { id: string };
 }) {
-  // Mark this component's data requirements as dynamic
+  // Dynamic data
   await connection();
 
   const socialMetrics = await getSocialMetrics(post.id);

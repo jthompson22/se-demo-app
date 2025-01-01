@@ -15,6 +15,9 @@
     "@opentelemetry/api-logs": "^0.57.0",
     "@opentelemetry/instrumentation": "^0.57.0",
     "@opentelemetry/sdk-logs": "^0.57.0",
+    "@sanity/icons": "^3.5.6",
+    "@sanity/image-url": "1",
+    "@sanity/vision": "3",
     "@vercel/otel": "^1.10.0",
     "@vercel/postgres": "^0.10.0",
     "ai": "^4.0.21",
@@ -26,10 +29,12 @@
     "geist": "1.3.1",
     "nanoid": "^5.0.9",
     "next": "15.1.1-canary.14",
+    "next-sanity": "9",
     "openai": "^4.77.0",
     "react": "19.0.0-rc-8b08e99e-20240713",
     "react-dom": "19.0.0-rc-8b08e99e-20240713",
-    "react-markdown": "^9.0.1"
+    "react-markdown": "^9.0.1",
+    "styled-components": "6"
   },
   "devDependencies": {
     "@tailwindcss/forms": "0.5.7",
