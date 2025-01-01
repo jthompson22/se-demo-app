@@ -1,42 +1,15 @@
-'use client';
+import { connection } from 'next/server';
+import { funController } from '@/app/flags';
 
-import { useState } from 'react';
-import FunController from './FunController';
-import { FlagValues } from '@vercel/flags/react';
+import FunController from './FunController'; // Changed import name
 
-import {
-  MatrixRain,
-  Fireworks,
-  Bubbles,
-  Confetti,
-  Glitch,
-  Spiral,
-} from './Animations';
+export default async function FunAnimations() {
+  await connection();
+  const showFunController = await funController();
 
-const animations = [MatrixRain, Fireworks, Bubbles, Confetti, Glitch, Spiral];
+  if (!showFunController) {
+    return null;
+  }
 
-export default function FunAnimations() {
-  const [activeButtons, setActiveButtons] = useState(
-    new Array(animations.length).fill(false),
-  );
-
-  const handleButtonClick = (index: number) => {
-    setActiveButtons((prev) => {
-      const newState = [...prev];
-      newState[index] = !newState[index];
-      return newState;
-    });
-  };
-
-  return (
-    <div>
-      <FunController
-        activeButtons={activeButtons}
-        onButtonClick={handleButtonClick}
-      />
-      {animations.map((Animation, index) => (
-        <Animation key={index} isActive={activeButtons[index]} />
-      ))}
-    </div>
-  );
+  return <FunController />;
 }
