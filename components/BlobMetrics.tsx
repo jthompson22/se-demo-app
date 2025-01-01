@@ -7,6 +7,7 @@ import { getSocialMetrics } from '@/db/actions-nocache';
 import { connection } from 'next/server';
 
 export async function BlogMetrics({ postId }: { postId: string }) {
+  // Dynamic data
   await connection();
   const metrics = await getSocialMetrics(postId);
 

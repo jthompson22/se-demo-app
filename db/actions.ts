@@ -2,7 +2,11 @@
 import { db } from './index';
 import { Post, Social, Feedback } from './schema';
 import { desc, eq, sql } from 'drizzle-orm';
-import { unstable_cacheLife as cacheLife, revalidatePath } from 'next/cache';
+import {
+  unstable_cacheLife as cacheLife,
+  revalidatePath,
+  unstable_cacheTag as cacheTag,
+} from 'next/cache';
 
 export async function getPublishedPost() {
   cacheLife('blog');
