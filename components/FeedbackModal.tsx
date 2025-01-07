@@ -4,6 +4,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import Form from 'next/form';
 import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
+// import { revalidateTag } from 'next/cache';
+import { revalidate } from '@/lib/server-actions';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -84,12 +86,15 @@ export default function FeedbackModal({
                   action={async (formData: FormData) => {
                     formData.append('postId', postId);
                     formData.append('type', type);
+
                     const result = await submitFeedback(
                       postId,
                       type,
                       formData.get('comment') as string,
-                      slug
+                      slug,
                     );
+
+                    await revalidate(`metrics-${postId}`);
                     if (result.success) {
                       onClose();
                       router.push('/');

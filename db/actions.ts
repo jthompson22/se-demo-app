@@ -1,4 +1,5 @@
 'use cache';
+import { revalidateTag } from 'next/cache';
 import { db } from './index';
 import { Post, Social, Feedback } from './schema';
 import { desc, eq, sql } from 'drizzle-orm';
@@ -9,6 +10,7 @@ import {
 } from 'next/cache';
 
 export async function getPublishedPost() {
+  'use cache';
   cacheLife('blog');
   try {
     const posts = await db
@@ -28,10 +30,11 @@ export async function getPublishedPost() {
     throw new Error('Failed to fetch blog Post');
   }
 }
+
 export async function getPostBySlug(slug: string) {
   'use cache';
+  cacheLife('blog');
   try {
-    cacheLife('blog');
     const post = await db
       .select({
         id: Post.id,
@@ -71,7 +74,7 @@ export async function submitFeedback(
   postId: string,
   type: 'like' | 'dislike',
   comment: string,
-  slug: string
+  slug: string,
 ) {
   try {
     await db.insert(Feedback).values({
@@ -109,3 +112,28 @@ export async function submitFeedback(
   }
 }
 
+export async function getSocialMetrics(postId: string) {
+  cacheTag(`metrics-${postId}`);
+  cacheLife('metrics');
+  console.log('getSocialMetrics', postId);
+  try {
+    const metrics = await db
+      .select({
+        likes: Social.likes,
+        dislikes: Social.dislikes,
+        views: Social.views,
+      })
+      .from(Social)
+      .where(eq(Social.postId, postId))
+      .limit(1);
+
+    return {
+      likes: metrics[0]?.likes ?? 0,
+      dislikes: metrics[0]?.dislikes ?? 0,
+      views: metrics[0]?.views ?? 0,
+    };
+  } catch (error) {
+    console.error('Failed to fetch social metrics:', error);
+    throw new Error('Failed to fetch social metrics');
+  }
+}

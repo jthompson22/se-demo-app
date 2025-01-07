@@ -1,4 +1,4 @@
-import { getSocialMetrics } from '@/db/actions-nocache';
+import { getSocialMetrics } from '@/db/actions';
 import EngagementButtons from '@/components/EngagementButtons';
 import { connection } from 'next/server';
 

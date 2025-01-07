@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { BlogHeader } from '@/components/BlogHeader';
 import './globals.css';
-import { Suspense } from 'react';
 import { VercelToolbar } from '@vercel/toolbar/next';
 
 export const metadata: Metadata = {
