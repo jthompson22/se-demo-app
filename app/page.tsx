@@ -2,7 +2,7 @@
 // import { BlogListSkeleton } from '@/components/BlogListSkeleton';
 // import { Suspense } from 'react';
 
-// export const experimental_ppr = true;
+export const experimental_ppr = true;
 
 // export default async function Home() {
 //   return (
@@ -12,15 +12,16 @@
 //   );
 // }
 
-// export default async function Home() {
-//   return (
-//     <main>
-//       <Suspense fallback={<BlogListSkeleton />}>
-//         <BlogList />
-//       </Suspense>
-//     </main>
-//   );
-// }
+export default async function Home() {
+  return (
+    <main>
+      {/* <Suspense fallback={<BlogListSkeleton />}>
+      
+      </Suspense> */}
+      <BlogList />
+    </main>
+  );
+}
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import {
@@ -28,10 +29,11 @@ import {
   HandThumbDownIcon,
   EyeIcon,
 } from '@heroicons/react/24/outline';
-import { getPublishedPost } from '@/db/actions';
+import { getPublishedPost } from '@/db/actions-cache';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { BlogMetrics } from '@/components/BlobMetrics';
+import { BlogListSkeleton } from '@/components/BlogListSkeleton';
 
 interface Blog {
   title: string;
@@ -42,7 +44,7 @@ interface Blog {
   slug: string;
 }
 
-export default async function BlogList() {
+async function BlogList() {
   const posts = await getPublishedPost();
 
   return (

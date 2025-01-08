@@ -5,3 +5,4 @@ export async function revalidate(tag: string) {
   console.log('revalidate', tag);
   await revalidateTag(tag);
 }
+

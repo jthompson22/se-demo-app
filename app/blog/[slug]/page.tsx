@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
+import { getAllSlugs, getPostBySlug } from '@/db/actions-cache';
+import { submitFeedback } from '@/db/actions-nocache';
 import { Suspense } from 'react';
 
 import Markdown from 'react-markdown';

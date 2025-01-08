@@ -1,31 +1,47 @@
-// import { db } from './index';
-// import { Post, Social, Feedback } from './schema';
-// import { desc, eq, sql } from 'drizzle-orm';
-// import { unstable_cacheTag as cacheTag } from 'next/cache';
-// import { unstable_cacheLife as cacheLife } from 'next/cache';
+'use server';
+import { db } from '../db/index';
+import { Social, Feedback } from '../db/schema';
+import { sql } from 'drizzle-orm';
 
-// export async function getSocialMetrics(postId: string) {
-//   'use cache';
-//   cacheTag(`metrics-${postId}`);
-//   console.log('getSocialMetrics', postId);
-//   try {
-//     const metrics = await db
-//       .select({
-//         likes: Social.likes,
-//         dislikes: Social.dislikes,
-//         views: Social.views,
-//       })
-//       .from(Social)
-//       .where(eq(Social.postId, postId))
-//       .limit(1);
+export async function submitFeedback(
+  postId: string,
+  type: 'like' | 'dislike',
+  comment: string,
+  slug: string,
+) {
+  try {
+    await db.insert(Feedback).values({
+      postId,
+      type,
+      comment,
+      createdAt: new Date(),
+    });
 
-//     return {
-//       likes: metrics[0]?.likes ?? 0,
-//       dislikes: metrics[0]?.dislikes ?? 0,
-//       views: metrics[0]?.views ?? 0,
-//     };
-//   } catch (error) {
-//     console.error('Failed to fetch social metrics:', error);
-//     throw new Error('Failed to fetch social metrics');
-//   }
-// }
+    // Update the social metrics
+    let result = await db
+      .insert(Social)
+      .values({
+        postId,
+        likes: type === 'like' ? 1 : 0,
+        dislikes: type === 'like' ? 0 : 1,
+        views: 0,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: Social.postId,
+        set: {
+          [type === 'like' ? 'likes' : 'dislikes']: sql`${
+            type === 'like' ? Social.likes : Social.dislikes
+          } + 1`,
+          updatedAt: new Date(),
+        },
+      });
+    console.log('RESULT', result);
+
+    //await revalidate(`metrics-${postId}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to submit feedback:', error);
+    return { success: false, error: 'Failed to submit feedback' };
+  }
+}
