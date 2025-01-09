@@ -1,14 +1,15 @@
 import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
-// import { submitFeedback } from '@/db/actions-nocache';
 import { Suspense } from 'react';
 
 import Markdown from 'react-markdown';
 import Link from 'next/link';
-import SummaryPanel from '@/components/SummaryPanel';
-import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { EngagementSection } from './EngagementSection';
-import { Metadata } from 'next';
+import SummaryPanel from './summary-panel';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { EngagementSection } from './engagement-section';
+import { ViewTracker } from './view-tracker';
+
+export const experimental_ppr = true;
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -17,17 +18,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export const experimental_ppr = true;
-
-export default async function Shell({ params }: any) {
-  return (
-    <Suspense fallback={<BlogContentSkeleton />}>
-      <BlogPost params={params} />
-    </Suspense>
-  );
-}
-
-async function BlogPost({ params }: any) {
+export default async function BlogPost({ params }: any) {
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);
@@ -36,6 +27,7 @@ async function BlogPost({ params }: any) {
 
   return (
     <article className="max-w-2xl mx-auto py-2 px-4">
+      <ViewTracker postId={post.id} />
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-sm text-primary/60 hover:text-primary mb-6"
@@ -59,9 +51,7 @@ async function BlogPost({ params }: any) {
                 submitFeedback={submitFeedback}
               />
             </Suspense>
-            <Suspense fallback={<SummaryPanelSkeleton />}>
-              <SummaryPanel content={post.content || ''} />
-            </Suspense>
+            <SummaryPanel content={post.content || ''} />
           </div>
         </div>
       </header>
@@ -70,21 +60,6 @@ async function BlogPost({ params }: any) {
         <Markdown>{post.content || ''}</Markdown>
       </div>
     </article>
-  );
-}
-
-function BlogContentSkeleton() {
-  return (
-    <div className="space-y-4 animate-pulse">
-      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6" />
-      <div className="space-y-2">
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-      </div>
-    </div>
   );
 }
 
@@ -97,11 +72,3 @@ function EngagementButtonSkeleton() {
   );
 }
 
-function SummaryPanelSkeleton() {
-  return (
-    <div className="flex items-center gap-1 text-primary/60">
-      <div className="h-4 w-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-      <div className="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-    </div>
-  );
-}

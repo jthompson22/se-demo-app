@@ -1,11 +1,19 @@
+export function EngagementSkeleton() {
+  return (
+    <span className="flex items-center gap-1">
+      <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+      <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+    </span>
+  );
+}
+
 export function BlogListSkeleton() {
   return (
     <div className="space-y-6">
       {[1, 2, 3, 4, 5, 6].map((i) => (
         <article key={i} className="rounded-lg border border-border p-4">
-          {/* Title skeleton */}
           <div className="h-7 w-3/4 animate-pulse rounded-md bg-muted" />
-          {/* Date skeleton */}
+
           <div className="mt-2 h-4 w-24 animate-pulse rounded-md bg-muted" />
         </article>
       ))}

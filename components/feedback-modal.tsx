@@ -94,7 +94,7 @@ export default function FeedbackModal({
                       slug,
                     );
 
-                    await revalidate(`metrics-${postId}`);
+                    await revalidate(`engagement-metrics-${postId}`);
                     if (result.success) {
                       onClose();
                       router.push('/');

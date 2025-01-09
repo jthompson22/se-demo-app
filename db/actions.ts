@@ -6,8 +6,8 @@ import {
   unstable_cacheTag as cacheTag,
 } from 'next/cache';
 import { connection } from 'next/server';
-import { revalidateTag } from 'next/cache';
 import { sql } from 'drizzle-orm';
+
 export async function getPublishedPost() {
   'use cache';
   cacheLife('blog');
@@ -31,9 +31,9 @@ export async function getPublishedPost() {
 }
 
 export async function getPostBySlug(slug: string) {
-  // 'use cache';
-  // cacheLife('blog');
-  await connection();
+  'use cache';
+  cacheTag(`post-${slug}`);
+  cacheLife('blog');
   try {
     const post = await db
       .select({
@@ -75,9 +75,6 @@ export async function getAllSlugs() {
 export async function getSocialMetrics(postId: string) {
   'use cache';
   cacheTag(`metrics-${postId}`);
-  // cacheLife('metrics');
-  // console.log('GET_SOCIAL_METRICS', postId);
-  //await connection();
   try {
     const metrics = await db
       .select({
@@ -88,8 +85,6 @@ export async function getSocialMetrics(postId: string) {
       .from(Social)
       .where(eq(Social.postId, postId))
       .limit(1);
-
-    console.log('METRICS', metrics);
     return {
       likes: metrics[0]?.likes ?? 0,
       dislikes: metrics[0]?.dislikes ?? 0,
@@ -142,5 +137,76 @@ export async function submitFeedback(
   } catch (error) {
     console.error('Failed to submit feedback:', error);
     return { success: false, error: 'Failed to submit feedback' };
+  }
+}
+
+/**
+ * Engagement Section
+ *
+ * These functions handle post engagement metrics like:
+ * - Views tracking
+ * - Like/dislike counts
+ * - User feedback submission
+ *
+ * Each function uses cache tags for efficient revalidation
+ * of engagement data without reloading the entire page.
+ */
+
+export async function getEngagementMetrics(postId: string) {
+  'use cache';
+  cacheTag(`engagement-metrics-${postId}`);
+  try {
+    const metrics = await db
+      .select({
+        likes: Social.likes,
+        dislikes: Social.dislikes,
+      })
+      .from(Social)
+      .where(eq(Social.postId, postId))
+      .limit(1);
+
+    return {
+      likes: metrics[0]?.likes ?? 0,
+      dislikes: metrics[0]?.dislikes ?? 0,
+    };
+  } catch (error) {
+    console.error('Failed to fetch engagement metrics:', error);
+    throw new Error('Failed to fetch engagement metrics');
+  }
+}
+
+export async function getViewMetrics(postId: string) {
+  //Always be dynamic because views are dynamic
+  //await new Promise((resolve) => setTimeout(resolve, 500));
+  try {
+    const metrics = await db
+      .select({
+        views: Social.views,
+      })
+      .from(Social)
+      .where(eq(Social.postId, postId))
+      .limit(1);
+
+    return {
+      views: metrics[0]?.views ?? 0,
+    };
+  } catch (error) {
+    console.error('Failed to fetch view metrics:', error);
+    throw new Error('Failed to fetch view metrics');
+  }
+}
+
+export async function incrementViews(postId: string) {
+  try {
+    await db
+      .update(Social)
+      .set({
+        views: sql`${Social.views} + 1`,
+        updatedAt: new Date(),
+      })
+      .where(eq(Social.postId, postId));
+  } catch (error) {
+    console.error('Failed to increment views:', error);
+    throw new Error('Failed to increment views');
   }
 }

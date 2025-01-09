@@ -8,7 +8,7 @@ import {
   Confetti,
   Glitch,
   Spiral,
-} from './Animations';
+} from './animations';
 
 const animations = [MatrixRain, Fireworks, Bubbles, Confetti, Glitch, Spiral];
 

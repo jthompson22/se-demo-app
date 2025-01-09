@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { BlogHeader } from '@/components/BlogHeader';
+import { BlogHeader } from '@/components/blog-header';
 import './globals.css';
 import { VercelToolbar } from '@vercel/toolbar/next';
 

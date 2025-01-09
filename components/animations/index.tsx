@@ -1,7 +1,7 @@
 import { connection } from 'next/server';
 import { funController } from '@/app/flags';
 
-import FunController from './FunController'; // Changed import name
+import FunController from './fun-controller'; // Changed import name
 
 export default async function FunAnimations() {
   await connection();
