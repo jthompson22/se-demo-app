@@ -5,7 +5,7 @@ import Form from 'next/form';
 import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 // import { revalidateTag } from 'next/cache';
-import { revalidate } from '@/lib/server-actions';
+import { revalidate } from '@/db/client-server-actions';
 
 function SubmitButton() {
   const { pending } = useFormStatus();

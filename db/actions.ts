@@ -1,17 +1,16 @@
 import { db } from './index';
 import { Post, Social, Feedback } from './schema';
-import { desc, eq, sql } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import {
   unstable_cacheLife as cacheLife,
-  revalidatePath,
   unstable_cacheTag as cacheTag,
 } from 'next/cache';
 import { connection } from 'next/server';
-
+import { revalidateTag } from 'next/cache';
+import { sql } from 'drizzle-orm';
 export async function getPublishedPost() {
   'use cache';
-  // cacheLife('blog');
-  //await connection();
+  cacheLife('blog');
   try {
     const posts = await db
       .select({
@@ -99,5 +98,49 @@ export async function getSocialMetrics(postId: string) {
   } catch (error) {
     console.error('Failed to fetch social metrics:', error);
     throw new Error('Failed to fetch social metrics');
+  }
+}
+
+export async function submitFeedback(
+  postId: string,
+  type: 'like' | 'dislike',
+  comment: string,
+  slug: string,
+) {
+  'use server';
+  try {
+    await db.insert(Feedback).values({
+      postId,
+      type,
+      comment,
+      createdAt: new Date(),
+    });
+
+    // Update the social metrics
+    let result = await db
+      .insert(Social)
+      .values({
+        postId,
+        likes: type === 'like' ? 1 : 0,
+        dislikes: type === 'like' ? 0 : 1,
+        views: 0,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: Social.postId,
+        set: {
+          [type === 'like' ? 'likes' : 'dislikes']: sql`${
+            type === 'like' ? Social.likes : Social.dislikes
+          } + 1`,
+          updatedAt: new Date(),
+        },
+      });
+    console.log('RESULT', result);
+
+    //await revalidate(`metrics-${postId}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to submit feedback:', error);
+    return { success: false, error: 'Failed to submit feedback' };
   }
 }

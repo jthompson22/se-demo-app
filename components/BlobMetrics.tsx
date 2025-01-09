@@ -3,7 +3,7 @@ import {
   HandThumbDownIcon,
   EyeIcon,
 } from '@heroicons/react/24/outline';
-import { getSocialMetrics } from '@/db/actions-cache';
+import { getSocialMetrics } from '@/db/actions';
 import { connection } from 'next/server';
 
 export async function BlogMetrics({ postId }: { postId: string }) {
