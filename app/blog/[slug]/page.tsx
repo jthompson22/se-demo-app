@@ -36,7 +36,9 @@ async function BlogPost({ params }: any) {
 
   return (
     <article className="max-w-2xl mx-auto py-2 px-4">
-      <ViewTracker postId={post.id} />
+      <Suspense fallback={null}>
+        <ViewTracker postId={post.id} />
+      </Suspense>
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-sm text-primary/60 hover:text-primary mb-6"
@@ -60,7 +62,13 @@ async function BlogPost({ params }: any) {
                 submitFeedback={submitFeedback}
               />
             </Suspense>
-            <SummaryPanel content={post.content || ''} />
+            <Suspense
+              fallback={
+                <div className="h-4 w-20 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+              }
+            >
+              <SummaryPanel content={post.content || ''} />
+            </Suspense>
           </div>
         </div>
       </header>

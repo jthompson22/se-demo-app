@@ -7,8 +7,7 @@ import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 export async function getSocialMetrics(postId: string) {
   cacheTag(`metrics-${postId}`);
-  // cacheLife('metrics');
-  // console.log('GET_SOCIAL_METRICS', postId);
+
   try {
     const metrics = await db
       .select({
@@ -20,7 +19,6 @@ export async function getSocialMetrics(postId: string) {
       .where(eq(Social.postId, postId))
       .limit(1);
 
-    console.log('METRICS', metrics);
     return {
       likes: metrics[0]?.likes ?? 0,
       dislikes: metrics[0]?.dislikes ?? 0,
