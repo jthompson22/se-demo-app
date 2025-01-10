@@ -28,7 +28,6 @@ export default function BlogPostShell({ params }: any) {
 }
 
 async function BlogPost({ params }: any) {
-  // async function BlogPost({ params }: any) {
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);
@@ -67,9 +66,7 @@ async function BlogPost({ params }: any) {
       </header>
 
       <div className="prose dark:prose-invert max-w-none">
-        <Suspense fallback={<div>Loading...</div>}>
-          <Markdown>{post.content || ''}</Markdown>
-        </Suspense>
+        <Markdown>{post.content || ''}</Markdown>
       </div>
     </article>
   );
