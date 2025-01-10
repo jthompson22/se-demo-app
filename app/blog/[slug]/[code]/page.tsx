@@ -1,9 +1,6 @@
-import { notFound } from 'next/navigation';
-import { getAllSlugs, getPostBySlug, submitFeedback } from '@/db/actions';
-import { Suspense } from 'react';
 import { gameFlags, catchDerekWu } from '@/app/flags';
 import BlogPost from '../page';
-
+import Link from 'next/link';
 type Params = Promise<{ code: string }>;
 
 export default async function Page({ params }: { params: Params }) {
@@ -23,11 +20,14 @@ export default async function Page({ params }: { params: Params }) {
           <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center">
             <h1 className="text-4xl font-bold mb-4">Uh Oh!</h1>
             <p className="text-lg mb-6">
-              Before you can see this content, you must pass a test.
+              Sorry this content is behind a paywall.
             </p>
-            <button className="px-6 py-3 bg-red-600 text-white text-xl font-bold rounded hover:bg-red-700 transition">
-              Take the Test
-            </button>
+            <Link
+              href="/"
+              className="px-6 py-3 bg-red-600 text-white text-xl font-bold rounded hover:bg-red-700 transition"
+            >
+              Go to homepage
+            </Link>
           </div>
         </div>
       )}

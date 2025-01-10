@@ -16,7 +16,7 @@ export const funController = flag<boolean>({
 export const catchDerekWu = flag<boolean>({
   key: 'catchDerekWu',
   async decide() {
-    return Math.random() < 0.5;
+    return Math.random() < 0.2;
   },
   defaultValue: false,
 });
