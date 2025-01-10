@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
   /*
   Give up all youre rights if you're in california. 
   */
-  if (country === 'US' && region === 'CA' && !givenUpRights) {
+  if (country === 'US' && region === 'sfo1' && !givenUpRights) {
     // Rewrite California-specific locations to sign their rights away.
     const nextUrl = new URL(
       `/blog/understanding-modern-web-development/california-agreement`,
@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
 
   /*
 
-  
+
   */
   return NextResponse.next();
 }
