@@ -97,7 +97,7 @@ export default function FeedbackModal({
                     await revalidate(`engagement-metrics-${postId}`);
                     if (result.success) {
                       onClose();
-                      router.push('/');
+                      router.refresh();
                     }
                   }}
                   className="mt-4"
