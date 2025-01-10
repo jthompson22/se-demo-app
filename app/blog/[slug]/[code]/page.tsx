@@ -1,27 +1,33 @@
-import { gameFlags, catchDerekWu } from '@/app/flags';
+import { gameFlags, californiaAgreement } from '@/app/flags';
 import BlogPost from '../page';
 import Link from 'next/link';
 type Params = Promise<{ code: string }>;
 
+/*
+
+  California Rewrite to ensure they sign a waiver.  
+
+*/
 export default async function Page({ params }: { params: Params }) {
   const { code } = await params;
-  const areYouDerekWu = await catchDerekWu(code, gameFlags);
-  console.log('areYouDerekWu', areYouDerekWu);
+  const agreement = await californiaAgreement(code, flags);
+  console.log('agreement', agreement);
 
   return (
     <div className="relative">
       {/* Original blog post content */}
-      <div className={areYouDerekWu ? 'blur-sm' : ''}>
+      <div className={agreement ? 'blur-sm' : ''}>
         <BlogPost params={params} />
       </div>
 
       {/* Overlay */}
-      {areYouDerekWu && (
+      {agreement && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center">
             <h1 className="text-4xl font-bold mb-4">Uh Oh!</h1>
             <p className="text-lg mb-6">
-              Sorry this content is behind a paywall.
+              Uh oh, looks like you're in California. California requires that
+              you relinquish all of your rights to the state.
             </p>
             <Link
               href="/"

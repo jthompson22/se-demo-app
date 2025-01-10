@@ -32,6 +32,9 @@ importers:
       '@vercel/flags':
         specifier: ^2.6.3
         version: 2.6.3(next@15.1.1-canary.14(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-8b08e99e-20240713(react@19.0.0-rc-8b08e99e-20240713))(react@19.0.0-rc-8b08e99e-20240713))(react-dom@19.0.0-rc-8b08e99e-20240713(react@19.0.0-rc-8b08e99e-20240713))(react@19.0.0-rc-8b08e99e-20240713)
+      '@vercel/functions':
+        specifier: ^1.5.2
+        version: 1.5.2
       '@vercel/postgres':
         specifier: ^0.10.0
         version: 0.10.0
@@ -2509,6 +2512,15 @@ packages:
       react:
         optional: true
       react-dom:
+        optional: true
+
+  '@vercel/functions@1.5.2':
+    resolution: {integrity: sha512-9XuynFoM/J1X+LSahgjhuAZCbZ96vm9mpXapCkSS1MX890U7zLh7n2RW/2KLNuxsXt8u8h2dOCw+Njtg+7pXgQ==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      '@aws-sdk/credential-provider-web-identity': '*'
+    peerDependenciesMeta:
+      '@aws-sdk/credential-provider-web-identity':
         optional: true
 
   '@vercel/postgres@0.10.0':
@@ -8559,6 +8571,8 @@ snapshots:
       next: 15.1.1-canary.14(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-8b08e99e-20240713(react@19.0.0-rc-8b08e99e-20240713))(react@19.0.0-rc-8b08e99e-20240713)
       react: 19.0.0-rc-8b08e99e-20240713
       react-dom: 19.0.0-rc-8b08e99e-20240713(react@19.0.0-rc-8b08e99e-20240713)
+
+  '@vercel/functions@1.5.2': {}
 
   '@vercel/postgres@0.10.0':
     dependencies:

@@ -27,7 +27,7 @@ export default function BlogPostShell({ params }: any) {
   );
 }
 
-async function BlogPost({ params }: any) {
+async function BlogPost({ params, searchParams }: any) {
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);

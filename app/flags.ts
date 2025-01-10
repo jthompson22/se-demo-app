@@ -13,12 +13,12 @@ export const funController = flag<boolean>({
 });
 
 
-export const catchDerekWu = flag<boolean>({
-  key: 'catchDerekWu',
+export const californiaAgreement = flag<boolean>({
+  key: 'californiaAgreement',
   async decide() {
-    return Math.random() < 0.2;
+    return true;
   },
   defaultValue: false,
 });
 
-export const gameFlags = [catchDerekWu];
+export const flags = [californiaAgreement];
