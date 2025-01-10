@@ -8,6 +8,6 @@ export default defineConfig({
   out: './migrations',
   dialect: 'postgresql',
   dbCredentials: {
-    url: 'postgres://default:hJFmpiH7LcO0@ep-jolly-hall-a4590z2b-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require',
+    url: process.env.POSTGRES_URL || '',
   },
 });
