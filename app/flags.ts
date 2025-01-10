@@ -11,3 +11,14 @@ export const funController = flag<boolean>({
     { value: true, label: 'Show' },
   ],
 });
+
+
+export const catchDerekWu = flag<boolean>({
+  key: 'catchDerekWu',
+  async decide() {
+    return Math.random() < 0.5;
+  },
+  defaultValue: false,
+});
+
+export const gameFlags = [catchDerekWu];

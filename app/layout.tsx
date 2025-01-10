@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { BlogHeader } from '@/components/blog-header';
 import './globals.css';
 import { VercelToolbar } from '@vercel/toolbar/next';
+// import { ThemeProvider } from '@/lib/theme-context';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://partialprerendering.com'),
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="overflow-y-scroll bg-background text-primary">
+        {/* <ThemeProvider> */}
         <div className="mx-auto max-w-4xl px-2 pt-20 lg:px-8 lg:py-8">
           <div className="rounded-lg bg-card shadow-sm">
             <div className="rounded-lg p-3.5 lg:p-6">
@@ -37,6 +39,7 @@ export default function RootLayout({
           </div>
           {shouldInjectToolbar && <VercelToolbar />}
         </div>
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );
