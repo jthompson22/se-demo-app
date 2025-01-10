@@ -10,7 +10,6 @@ interface SummaryPanelProps {
 
 const SummaryPanel: FC<SummaryPanelProps> = ({ content }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [streamingCompletion, setStreamingCompletion] = useState('');
   const { complete, completion, isLoading, setCompletion } = useCompletion({
     api: '/api/summary',
     body: { content },

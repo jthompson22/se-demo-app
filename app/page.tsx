@@ -2,19 +2,20 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { getPublishedPost } from '@/db/actions';
 import Link from 'next/link';
 import { BlogMetrics } from './blog-metrics';
+import { Suspense } from 'react';
+import { BlogListSkeleton } from '@/components/skeletons';
 
 export const experimental_ppr = true;
 
-interface Blog {
-  title: string;
-  createdAt: Date;
-  likes: number;
-  dislikes: number;
-  views: number;
-  slug: string;
+export default function BlogListPage() {
+  return (
+    <Suspense fallback={<BlogListSkeleton />}>
+      <BlogList />
+    </Suspense>
+  );
 }
 
-export default async function BlogList() {
+async function BlogList() {
   const posts = await getPublishedPost();
 
   return (

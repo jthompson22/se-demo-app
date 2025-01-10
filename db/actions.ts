@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { db } from './index';
 import { Post, Social, Feedback } from './schema';
 import { desc, eq } from 'drizzle-orm';
@@ -5,7 +6,6 @@ import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
 } from 'next/cache';
-import { connection } from 'next/server';
 import { sql } from 'drizzle-orm';
 
 export async function getPublishedPost() {
@@ -55,10 +55,33 @@ export async function getPostBySlug(slug: string) {
     throw new Error('Failed to fetch post');
   }
 }
+// export const getPostBySlug = cache(async (slug: string) => {
+//   try {
+//     const post = await db
+//       .select({
+//         id: Post.id,
+//         title: Post.title,
+//         description: Post.description,
+//         content: Post.content,
+//         createdAt: Post.createdAt,
+//       })
+//       .from(Post)
+//       .where(eq(Post.slug, slug))
+//       .limit(1);
+
+//     if (!post[0]) return null;
+
+//     return post[0];
+//   } catch (error) {
+//     console.error('Failed to fetch post:', error);
+//     throw new Error('Failed to fetch post');
+//   }
+// });
 
 export async function getAllSlugs() {
-  // 'use cache';
-  await connection();
+  'use cache';
+  cacheTag('slugs');
+  cacheLife('blog');
   try {
     const slugs = await db
       .select({ slug: Post.slug })
@@ -130,8 +153,6 @@ export async function submitFeedback(
           updatedAt: new Date(),
         },
       });
-    console.log('RESULT', result);
-
     //await revalidate(`metrics-${postId}`);
     return { success: true };
   } catch (error) {

@@ -3,12 +3,7 @@ import {
   HandThumbDownIcon,
   EyeIcon,
 } from '@heroicons/react/24/outline';
-import { connection } from 'next/server';
-import {
-  getSocialMetrics,
-  getEngagementMetrics,
-  getViewMetrics,
-} from '@/db/actions';
+import { getEngagementMetrics, getViewMetrics } from '@/db/actions';
 import { EngagementSkeleton } from '@/components/skeletons';
 import { Suspense } from 'react';
 
