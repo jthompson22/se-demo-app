@@ -4,6 +4,19 @@ import { SocialHandles } from './social-handles';
 import { SubNav } from './sub-nav';
 import FunAnimations from '@/components/animations/index';
 
+function SubNavSkeleton() {
+  return (
+    <nav className="flex gap-4 items-center justify-center">
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"
+        />
+      ))}
+    </nav>
+  );
+}
+
 export function BlogHeader() {
   return (
     <div className="flex flex-col items-center justify-center border-b border-primary/20 pb-4 mb-4">
@@ -14,7 +27,10 @@ export function BlogHeader() {
           <p className="text-sm text-muted-foreground">
             Writing and hacking about technology.
           </p>
-          <SubNav />
+
+          <Suspense fallback={<SubNavSkeleton />}>
+            <SubNav />
+          </Suspense>
           <Suspense>
             <FunAnimations />
           </Suspense>

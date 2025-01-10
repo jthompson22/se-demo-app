@@ -1,4 +1,3 @@
-import { cache } from 'react';
 import { db } from './index';
 import { Post, Social, Feedback } from './schema';
 import { desc, eq } from 'drizzle-orm';
