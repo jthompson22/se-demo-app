@@ -6,6 +6,7 @@ type Params = Promise<{ code: string }>;
 export default async function Page({ params }: { params: Params }) {
   const { code } = await params;
   const areYouDerekWu = await catchDerekWu(code, gameFlags);
+  console.log('areYouDerekWu', areYouDerekWu);
 
   return (
     <div className="relative">
