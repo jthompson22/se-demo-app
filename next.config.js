@@ -1,10 +1,19 @@
 /** @type {import('next').NextConfig} */
+
+
+require('events').EventEmitter.defaultMaxListeners = 20;
+
 const nextConfig = {
   experimental: {
     ppr: 'incremental',
     dynamicIO: true,
     cacheLife: {
       blog: {
+        stale: 3600, // 1 hour
+        revalidate: 900, // 15 minutes
+        expire: 86400, // 1 day
+      },
+      metrics: {
         stale: 3600, // 1 hour
         revalidate: 900, // 15 minutes
         expire: 86400, // 1 day
@@ -18,6 +27,11 @@ const nextConfig = {
         hostname: 'cdn.sanity.io',
       },
     ],
+  },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
   },
 };
 

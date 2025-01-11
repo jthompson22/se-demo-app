@@ -13,14 +13,15 @@ export async function POST(req: Request) {
       {
         role: 'system',
         content:
-          'You are a helpful assistant that summarizes blog content concisely.',
+          'You are a helpful assistant that summarizes blog content in long convaluted poetic verse.',
       },
       {
         role: 'user',
-        content: `Please provide a concise summary of the following blog post: ${content}`,
+        content: `Please provide a summary of the following blog post in long convaluted poetic verse: ${content}`,
       },
     ],
   });
+
 
   return result.toDataStreamResponse();
 }

@@ -2,7 +2,7 @@
 
 import { XMarkIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { useCompletion } from 'ai/react';
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 interface SummaryPanelProps {
   content: string;
@@ -47,7 +47,7 @@ const SummaryPanel: FC<SummaryPanelProps> = ({ content }) => {
             </button>
           </div>
           <div className="prose dark:prose-invert">
-            {isLoading ? (
+            {isLoading && !completion ? (
               <div className="animate-pulse">Generating summary...</div>
             ) : completion ? (
               <div>{completion}</div>

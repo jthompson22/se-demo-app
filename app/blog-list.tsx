@@ -1,13 +1,8 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import {
-  HandThumbUpIcon,
-  HandThumbDownIcon,
-  EyeIcon,
-} from '@heroicons/react/24/outline';
 import { getPublishedPost } from '@/db/actions';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { BlogMetrics } from './BlobMetrics';
+import { BlogMetrics } from './blog-metrics';
 
 interface Blog {
   title: string;

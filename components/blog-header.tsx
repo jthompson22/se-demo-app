@@ -1,8 +1,21 @@
 import { Suspense } from 'react';
-import { Avatar } from './Avatar';
-import { SocialHandles } from './SocialHandles';
-import { SubNav } from './SubNav';
+import { Avatar } from './avatar';
+import { SocialHandles } from './social-handles';
+import { SubNav } from './sub-nav';
 import FunAnimations from '@/components/animations/index';
+
+function SubNavSkeleton() {
+  return (
+    <nav className="flex gap-4 items-center justify-center">
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"
+        />
+      ))}
+    </nav>
+  );
+}
 
 export function BlogHeader() {
   return (
@@ -14,7 +27,7 @@ export function BlogHeader() {
           <p className="text-sm text-muted-foreground">
             Writing and hacking about technology.
           </p>
-          <SocialHandles twitter="thompsonj22" linkedin="thompsonj222" />
+
           <Suspense fallback={<SubNavSkeleton />}>
             <SubNav />
           </Suspense>
@@ -27,8 +40,3 @@ export function BlogHeader() {
     </div>
   );
 }
-
-function SubNavSkeleton() {
-  return <div className="h-4 w-4 bg-gray-200 animate-pulse rounded-full"></div>;
-}
-

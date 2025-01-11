@@ -4,10 +4,13 @@ import { Suspense } from 'react';
 
 import Markdown from 'react-markdown';
 import Link from 'next/link';
-import SummaryPanel from '@/components/SummaryPanel';
-import { EyeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { EngagementSection } from './EngagementSection';
-import { Metadata } from 'next';
+import SummaryPanel from './summary-panel';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { EngagementSection } from './engagement-section';
+import { ViewTracker } from './view-tracker';
+import BlogPostSkeleton from '@/components/skeletons';
+
+export const experimental_ppr = true;
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -16,11 +19,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export const experimental_ppr = true;
-
-export default async function Shell({ params }: any) {
+export default function BlogPostShell({ params }: any) {
   return (
-    <Suspense fallback={<BlogContentSkeleton />}>
+    <Suspense fallback={<BlogPostSkeleton />}>
       <BlogPost params={params} />
     </Suspense>
   );
@@ -35,6 +36,9 @@ async function BlogPost({ params }: any) {
 
   return (
     <article className="max-w-2xl mx-auto py-2 px-4">
+      <Suspense fallback={null}>
+        <ViewTracker postId={post.id} />
+      </Suspense>
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-sm text-primary/60 hover:text-primary mb-6"
@@ -58,7 +62,11 @@ async function BlogPost({ params }: any) {
                 submitFeedback={submitFeedback}
               />
             </Suspense>
-            <Suspense fallback={<SummaryPanelSkeleton />}>
+            <Suspense
+              fallback={
+                <div className="h-4 w-20 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
+              }
+            >
               <SummaryPanel content={post.content || ''} />
             </Suspense>
           </div>
@@ -72,35 +80,11 @@ async function BlogPost({ params }: any) {
   );
 }
 
-function BlogContentSkeleton() {
-  return (
-    <div className="space-y-4 animate-pulse">
-      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6" />
-      <div className="space-y-2">
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-      </div>
-    </div>
-  );
-}
-
 function EngagementButtonSkeleton() {
   return (
     <div className="flex items-center gap-1 text-primary/60">
       <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
       <div className="h-4 w-6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse" />
-    </div>
-  );
-}
-
-function SummaryPanelSkeleton() {
-  return (
-    <div className="flex items-center gap-1 text-primary/60">
-      <div className="h-4 w-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-      <div className="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
     </div>
   );
 }

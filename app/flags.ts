@@ -11,3 +11,14 @@ export const funController = flag<boolean>({
     { value: true, label: 'Show' },
   ],
 });
+
+
+export const californiaAgreement = flag<boolean>({
+  key: 'californiaAgreement',
+  async decide() {
+    return true;
+  },
+  defaultValue: false,
+});
+
+export const flags = [californiaAgreement];
