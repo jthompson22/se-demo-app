@@ -5,10 +5,8 @@ import { usePathname } from 'next/navigation';
 
 const navItems = [
   { name: 'Long Form', path: '/' },
-  { name: 'Snippets', path: '/snippets' },
-  { name: 'Store', path: '/store' },
-  { name: 'Photos', path: '/photos' },
-  { name: 'About Me', path: '/about' },
+  { name: 'Sanity', path: '/sanity-photos' },
+  { name: 'Public', path: '/public-photos' },
 ];
 
 export function SubNav() {

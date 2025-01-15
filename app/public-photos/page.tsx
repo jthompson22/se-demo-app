@@ -1,30 +1,17 @@
 import Image from 'next/image';
 import { getPage } from '@/sanity/queries';
 import { Suspense } from 'react';
+import { GallerySkeleton } from '@/components/skeletons';
 
 /*
-
   Skeleton for the gallery while the images are loading. 
 */
+
 export const experimental_ppr = true;
 
-function GallerySkeleton() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="h-8 w-48 bg-gray-200 rounded-lg mb-8 animate-pulse" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[...Array(9)].map((_, i) => (
-          <div
-            key={i}
-            className="relative aspect-square bg-gray-200 rounded-lg animate-pulse"
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 async function PhotoGallery() {
+  //Wait a second to demonstrate PPR
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const page = await getPage();
 
   return (
