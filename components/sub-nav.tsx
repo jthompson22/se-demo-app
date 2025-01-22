@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const navItems = [
   { name: 'Long Form', path: '/' },
-  { name: 'Sanity', path: '/sanity-photos' },
+  { name: 'Photos', path: '/photos' },
   { name: 'Public', path: '/public-photos' },
 ];
 
