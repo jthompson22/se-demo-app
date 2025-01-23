@@ -42,3 +42,19 @@ export default function BlogPostSkeleton() {
     </article>
   );
 }
+
+export function GallerySkeleton() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="h-8 w-48 bg-gray-700 rounded-lg mb-8 animate-pulse" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(9)].map((_, i) => (
+          <div
+            key={i}
+            className="relative aspect-square bg-gray-200 rounded-lg animate-pulse"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}

@@ -3,6 +3,11 @@ import { unstable_precompute as precompute } from '@vercel/flags/next';
 // import { gameFlags } from './app/flags';
 import { geolocation } from '@vercel/functions';
 import { cookies } from 'next/headers';
+
+/*
+Route California to a different "rewritten" page. 
+*/
+
 export const config = {
   matcher: ['/blog/:path*'],
 };
