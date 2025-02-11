@@ -18,7 +18,6 @@ async function acceptRights() {
   // Get current URL from headers
   const referer = headersList.get('referer');
   const fullPath = referer?.replace(headersList.get('origin') || '', '') || '/';
-  console.log('fullPath', fullPath);
   redirect(fullPath);
 }
 
