@@ -8,7 +8,6 @@ import SummaryPanel from './summary-panel';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { EngagementSection } from './engagement-section';
 import { ViewTracker } from './view-tracker';
-import BlogPostSkeleton from '@/components/skeletons';
 
 export const experimental_ppr = true;
 
@@ -19,15 +18,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostShell({ params }: any) {
-  return (
-    <Suspense fallback={<BlogPostSkeleton />}>
-      <BlogPost params={params} />
-    </Suspense>
-  );
-}
-
-async function BlogPost({ params }: any) {
+export default async function BlogPost({ params }: any) {
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);
