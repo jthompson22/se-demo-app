@@ -1,0 +1,10 @@
+What is different about this implementation?
+1. Wild diveristy of outputs related to dynamic rendering of BlogMetrics for build. 
+  A. Sometimes blog metrics are dynamic for both the index and post. 
+  B. Usually blog metrics are dynamic for Post but not index.
+  C. Sometimes neither! So fun. 
+  METHODS:
+    - Added 's-maxage=900, stale-while-revalidate=31535100', to headers via next.config.js
+    - Added suspense around BlogMetrics in index. 
+    - Tried adding await headers in to index to force dynamic. 
+  

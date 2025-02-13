@@ -29,6 +29,19 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 's-maxage=900, stale-while-revalidate=31535100',
+          },
+        ],
+      },
+    ];
+  },
   logging: {
     fetches: {
       fullUrl: true,

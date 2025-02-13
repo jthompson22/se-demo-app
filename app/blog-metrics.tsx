@@ -7,7 +7,6 @@ import { getEngagementMetrics, getViewMetrics } from '@/db/actions';
 import { EngagementSkeleton } from '@/components/skeletons';
 import { Suspense } from 'react';
 
-export const dynamic = 'force-dynamic';
 export async function BlogMetrics({ postId }: { postId: string }) {
   return (
     <div className="flex gap-4 text-sm text-primary/60">
