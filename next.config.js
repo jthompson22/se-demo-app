@@ -7,7 +7,7 @@ const nextConfig = {
   experimental: {
     ppr: 'incremental',
     useCache: true,
-    dynamicIO: true,
+    // dynamicIO: true,
     cacheLife: {
       blog: {
         stale: 3600, // 1 hour
@@ -28,19 +28,6 @@ const nextConfig = {
         hostname: 'cdn.sanity.io',
       },
     ],
-  },
-  async headers() {
-    return [
-      {
-        source: '/',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 's-maxage=900, stale-while-revalidate=31535100',
-          },
-        ],
-      },
-    ];
   },
   logging: {
     fetches: {
