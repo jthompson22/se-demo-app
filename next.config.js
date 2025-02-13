@@ -7,7 +7,7 @@ const nextConfig = {
   experimental: {
     ppr: 'incremental',
     useCache: true,
-    // dynamicIO: true,
+    dynamicIO: true,
     cacheLife: {
       blog: {
         stale: 3600, // 1 hour
