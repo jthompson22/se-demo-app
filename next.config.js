@@ -6,6 +6,7 @@ require('events').EventEmitter.defaultMaxListeners = 20;
 const nextConfig = {
   experimental: {
     ppr: 'incremental',
+    useCache: true,
     dynamicIO: true,
     cacheLife: {
       blog: {
@@ -27,6 +28,19 @@ const nextConfig = {
         hostname: 'cdn.sanity.io',
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 's-maxage=900, stale-while-revalidate=31535100',
+          },
+        ],
+      },
+    ];
   },
   logging: {
     fetches: {
