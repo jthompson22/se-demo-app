@@ -6,7 +6,8 @@ require('events').EventEmitter.defaultMaxListeners = 20;
 const nextConfig = {
   experimental: {
     ppr: 'incremental',
-    dynamicIO: true,
+    useCache: true,
+    // dynamicIO: true,
     cacheLife: {
       blog: {
         stale: 3600, // 1 hour
