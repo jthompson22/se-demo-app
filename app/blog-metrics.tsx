@@ -6,7 +6,7 @@ import {
 import { getEngagementMetrics, getViewMetrics } from '@/db/actions';
 import { EngagementSkeleton } from '@/components/skeletons';
 import { Suspense } from 'react';
-
+import { connection } from 'next/server';
 export async function BlogMetrics({ postId }: { postId: string }) {
   return (
     <div className="flex gap-4 text-sm text-primary/60">
