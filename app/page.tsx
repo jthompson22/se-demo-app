@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import { BlogListSkeleton } from '@/components/skeletons';
 
 export const experimental_ppr = true;
+export const dynamic = 'force-dynamic';
 
 export default function BlogListPage() {
   return (

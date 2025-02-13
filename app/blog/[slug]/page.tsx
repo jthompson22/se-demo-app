@@ -18,7 +18,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function BlogPost({ params }: any) {
+export default async function BlogPostShell({ params }: any) {
+  return (
+    <Suspense>
+      <BlogPost params={params} />
+    </Suspense>
+  );
+}
+
+async function BlogPost({ params }: any) {
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);
@@ -33,6 +41,7 @@ export default async function BlogPost({ params }: any) {
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-sm text-primary/60 hover:text-primary mb-6"
+        prefetch={false}
       >
         <ArrowLeftIcon className="h-4 w-4" />
         Back to posts
