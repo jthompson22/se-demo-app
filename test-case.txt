@@ -1,8 +1,6 @@
 What is different about this implementation?
- - Same issue as Test case 1. 
- - Arbitrary about where the cache is applied (basic case)
- - can be at index, or post, or both or neither (build)
-METHODS:
-
+  - Works locally like a charm on dev and build
+  - In Vercel, entirely breaks down LOL so FUN!
+  
 
   
