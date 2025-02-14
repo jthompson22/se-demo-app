@@ -150,10 +150,9 @@ export async function submitFeedback(
  */
 
 export async function getEngagementMetrics(postId: string) {
-  //'use cache';
-  // cacheTag(`engagement-metrics-${postId}`);
-  // cacheLife('seconds');
-  await connection();
+  'use cache';
+  cacheTag(`engagement-metrics-${postId}`);
+
   await new Promise((resolve) => setTimeout(resolve, 500));
   try {
     const metrics = await db
@@ -177,8 +176,9 @@ export async function getEngagementMetrics(postId: string) {
 
 export async function getViewMetrics(postId: string) {
   //Always be dynamic because views are dynamic
-  //'use cache';
-  await connection();
+  'use cache';
+  cacheTag(`view-metrics-${postId}`);
+
   await new Promise((resolve) => setTimeout(resolve, 500));
   try {
     const metrics = await db
