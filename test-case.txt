@@ -1,0 +1,6 @@
+What is different about this implementation?
+  - Works locally like a charm on dev and build
+  - In Vercel, entirely breaks down LOL so FUN!
+  
+
+  

@@ -8,8 +8,8 @@ import SummaryPanel from './summary-panel';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { EngagementSection } from './engagement-section';
 import { ViewTracker } from './view-tracker';
-import BlogPostSkeleton from '@/components/skeletons';
-
+import { revalidate } from '@/db/client-server-actions';
+import { RouterLink } from '@/components/router-revalidate-link';
 export const experimental_ppr = true;
 
 export async function generateStaticParams() {
@@ -19,9 +19,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostShell({ params }: any) {
+export default async function BlogPostShell({ params }: any) {
   return (
-    <Suspense fallback={<BlogPostSkeleton />}>
+    <Suspense>
       <BlogPost params={params} />
     </Suspense>
   );
@@ -39,13 +39,22 @@ async function BlogPost({ params }: any) {
       <Suspense fallback={null}>
         <ViewTracker postId={post.id} />
       </Suspense>
-      <Link
+      {/* <Link
         href="/"
+        className="inline-flex items-center gap-2 text-sm text-primary/60 hover:text-primary mb-6"
+        prefetch={false}
+      >
+        <ArrowLeftIcon className="h-4 w-4" />
+        Back to posts
+      </Link> */}
+      <RouterLink
+        href="/"
+        tags={[`view-metrics-${post.id}`]}
         className="inline-flex items-center gap-2 text-sm text-primary/60 hover:text-primary mb-6"
       >
         <ArrowLeftIcon className="h-4 w-4" />
         Back to posts
-      </Link>
+      </RouterLink>
 
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2">{post.title}</h1>

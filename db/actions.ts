@@ -6,6 +6,7 @@ import {
   unstable_cacheTag as cacheTag,
 } from 'next/cache';
 import { sql } from 'drizzle-orm';
+import { connection } from 'next/server';
 
 export async function getPublishedPost() {
   'use cache';
@@ -94,8 +95,6 @@ export async function getAllSlugs() {
   }
 }
 
-
-
 export async function submitFeedback(
   postId: string,
   type: 'like' | 'dislike',
@@ -153,7 +152,8 @@ export async function submitFeedback(
 export async function getEngagementMetrics(postId: string) {
   'use cache';
   cacheTag(`engagement-metrics-${postId}`);
-  cacheLife('seconds');
+  cacheLife('hours');
+  await new Promise((resolve) => setTimeout(resolve, 500));
   try {
     const metrics = await db
       .select({
@@ -176,7 +176,10 @@ export async function getEngagementMetrics(postId: string) {
 
 export async function getViewMetrics(postId: string) {
   //Always be dynamic because views are dynamic
-  //await new Promise((resolve) => setTimeout(resolve, 500));
+  'use cache';
+  cacheTag(`view-metrics-${postId}`);
+  cacheLife('hours');
+  await new Promise((resolve) => setTimeout(resolve, 500));
   try {
     const metrics = await db
       .select({
