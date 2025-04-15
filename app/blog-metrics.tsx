@@ -28,6 +28,7 @@ export async function BlogMetrics({ postId }: { postId: string }) {
 }
 
 export async function ViewMetrics({ postId }: { postId: string }) {
+  //await connection();
   const metrics = await getViewMetrics(postId);
   return (
     <span className="flex items-center gap-1">
@@ -37,6 +38,8 @@ export async function ViewMetrics({ postId }: { postId: string }) {
 }
 
 export async function EngagementMetrics({ postId }: { postId: string }) {
+  //Random dynamic
+  //await connection();
   const metrics = await getEngagementMetrics(postId);
   return (
     <>

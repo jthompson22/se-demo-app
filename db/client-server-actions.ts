@@ -12,7 +12,6 @@ import { eq, sql } from 'drizzle-orm';
 import { revalidateTag } from 'next/cache';
 
 export async function revalidate(tag: string) {
-  console.log('revalidate', tag);
   await revalidateTag(tag);
 }
 

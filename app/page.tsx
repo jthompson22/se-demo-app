@@ -5,6 +5,7 @@ import { BlogMetrics } from './blog-metrics';
 import { Suspense } from 'react';
 import { BlogListSkeleton } from '@/components/skeletons';
 
+
 export const experimental_ppr = true;
 
 export default function BlogListPage() {
@@ -35,7 +36,9 @@ async function BlogList() {
                       {new Date(post.createdAt).toLocaleDateString()}
                     </time>
                   </div>
-                  <BlogMetrics postId={post.id} />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <BlogMetrics postId={post.id} />
+                  </Suspense>
                 </div>
               </div>
             </article>

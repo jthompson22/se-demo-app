@@ -19,10 +19,6 @@ export async function middleware(request: NextRequest) {
 
   const { country, region } = geolocation(request);
 
-  console.log('MIDDLEWARE LOGGING');
-  console.log(country, region);
-  console.log('givenUpRights', givenUpRights);
-
   /*
   Give up all youre rights if you're in california. 
   */
