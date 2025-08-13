@@ -31,7 +31,9 @@ async function BlogList() {
                   <div>
                     <h2 className="text-xl font-semibold text-primary">
                       {post.title}
+                
                     </h2>
+                    <p> HELLO J </p>
                     <time className="text-sm text-primary/60">
                       {new Date(post.createdAt).toLocaleDateString()}
                     </time>
