@@ -20,8 +20,6 @@ async function BlogList() {
 
   return (
     <main>
-      <h1>{process.env.OUR_CUSTOM_ENVIRONMENT}</h1>
-      <h1> BOOBIES AND DOOBIES </h1>
       <div className="space-y-6">
         {posts.map((post, index) => (
           <Link href={`/blog/${post.slug}`} key={index}>
